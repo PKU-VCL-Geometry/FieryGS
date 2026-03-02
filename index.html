@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="FieryGS: In-the-Wild Fire Synthesis with Physics-Integrated Gaussian Splatting">
+  <meta name="keywords" content="Novel View Synthesis, Physics Simulation, 3D Gaussian Splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FieryGS: Open-World Fire Synthesis with Physics-Integrated Gaussian Splatting</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="static/js/script.js"></script>
+</head>
+<body>
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <img src="./static/images/bonfire.svg" alt="Fire Icon" class="flame-icon" />
+            <span class="fiery-gradient">FieryGS</span>: Open-World Fire Synthesis with Physics-Integrated Gaussian Splatting
+          </h1>  
+              
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://qianfanshen.github.io/" target="_blank">Qianfan Shen</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://taoningxiao.github.io/" target="_blank">Ningxiao Tao</a><sup>2*</sup>,</span>
+            <span class="author-block">
+              <a href="https://daiqy.github.io/" target="_blank">Qiyu Dai</a><sup>2*†</sup>,</span>
+            <span class="author-block">
+              <a href="https://github.com/linghaiCTL" target="_blank">Tianle Chen</a><sup>3</sup>,</span>
+            
+            <span class="author-block">
+              <a href="https://minghanqin.github.io/" target="_blank">Minghan Qin</a><sup>4</sup>,</span>
+              <br />
+            <span class="author-block">
+              <a target="_blank">Yongjie Zhang</a><sup>4</sup>,</span>
+            <span class="author-block">
+              <a href="https://rachelcmy.github.io/" target="_blank">Mengyu Chu</a><sup>2‡</sup>
+            </span>
+            <span class="author-block">
+              <a href="https://wenzhengchen.github.io/" target="_blank">Wenzheng Chen</a><sup>5‡</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://baoquanchen.info/" target="_blank">Baoquan Chen</a><sup>2‡</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+          <span class="author-block"><sup>1</sup>School of EECS, Peking University</span>
+          <span class="author-block"><sup>2</sup>School of Intelligence Science and Technology, Peking University</span>
+          <br />
+          <span class="author-block"><sup>3</sup>Yuanpei College, Peking University</span>
+			    <span class="author-block"><sup>4</sup>ByteDance Seed</span>
+          <span class="author-block"><sup>5</sup>Wangxuan Institute of Computer Technology, Peking University</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>equal contributions, <sup>†</sup>project lead, <sup>‡</sup>corresponding author</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="./static/paper.pdf" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a href="https://openreview.net/forum?id=ziKFH7whvy" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://pku-vcl-geometry.github.io/FieryGS/" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Comming Soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              </span> -->
+            </div>
+            <h2 class="subtitle is-3 publication-subtitle">ICLR 2026</h2>    
+			
+			<!-- <div class="column is-full_width">
+				<h2 class="title is-size-4"><a href="https://cvpr.thecvf.com/Conferences/2025">CVPR 2025</a></h2>
+			</div> -->
+			
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <!-- <div class="hero-body"  style="height: 280px; position: relative;"> -->
+      <div class="video-container-teaser">
+        <!-- <img src="./static/videos/loading.gif" alt="loading" class="loading-gif2" id="teaser_loading"> -->
+        <video id="teaser_video1" muted playsinline preload="auto" poster="./static/videos/loading.gif">
+          <source src="./static/videos/teaser.mp4" type="video/mp4">
+        </video>
+        <video id="teaser_video2" muted loop playsinline preload="auto" style="display:none;">
+          <source src="./static/videos/teaser_later.mp4" type="video/mp4">
+        </video>
+      </div>
+    <!-- </div> -->
+    <div class="content has-text-justified" style="margin-bottom: 3rem;">
+      Using multi-view images as input, <span class="fiery-gradient"><b>FieryGS</b></span> constructs 3D scenes with physically-based Gaussian Splatting techniques to enable efficient, photorealistic and physically plausible fire synthesis.
+    </div>
+  </div>
+
+  <script>
+    const video1 = document.getElementById('teaser_video1');
+    const video2 = document.getElementById('teaser_video2');
+    
+    // Function to handle video play safely
+    async function playVideo(video) {
+        try {
+            await video.play();
+        } catch (err) {
+            console.warn("Video play failed:", err);
+        }
+    }
+
+    // Start loading video2 immediately
+    video2.preload = "auto";
+    video2.load();
+
+    // When video1 ends, switch to video2
+    video1.onended = function() {
+        video1.style.display = 'none';
+        video2.style.display = 'block';
+        playVideo(video2);
+    };
+
+    // Only play video1 when it has enough data to play through without buffering
+    if (video1.readyState >= 4) {
+        playVideo(video1);
+    } else {
+        video1.addEventListener('canplaythrough', () => playVideo(video1), { once: true });
+        video1.load(); // Ensure loading starts
+    }
+  </script>
+</section>
+
+
+
+<section class="section has-background-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We consider the problem of synthesizing photorealistic, physically plausible combustion effects in in-the-wild 3D scenes. Traditional CFD and graphics pipelines
+can produce realistic fire effects but rely on handcrafted geometry, expert-tuned
+parameters, and labor-intensive workflows, limiting their scalability to the real
+world. Recent scene modeling advances like 3D Gaussian Splatting (3DGS) enable high-fidelity real-world scene reconstruction, yet lack physical grounding
+for combustion. To bridge this gap, we propose FieryGS, a physically-based
+framework that integrates physically-accurate and user-controllable combustion
+simulation and rendering within the 3DGS pipeline, enabling realistic fire synthesis
+for real scenes. Our approach tightly couples three key modules: (1) multimodal
+large-language-model-based physical material reasoning, (2) efficient volumetric
+combustion simulation, and (3) a unified renderer for fire and 3DGS. By unifying
+reconstruction, physical reasoning, simulation, and rendering, FieryGS removes
+manual tuning and automatically generates realistic, controllable fire dynamics
+consistent with scene geometry and materials. Our framework supports complex
+combustion phenomena—including flame propagation, smoke dispersion, and surface carbonization—with precise user control over fire intensity, airflow, ignition
+location and other combustion parameters. Evaluated on diverse indoor and outdoor
+scenes, FieryGS outperforms all comparative baselines in visual realism, physical
+fidelity, and controllability. 
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">More Visual Results</h2>
+    <div class="content has-text-justified">
+      <p>
+        <b> Fire synthesis results on real-world scenes.</b> Our approach achieves photorealistic, physically plausible combustion effects, including fire propogation
+        along combustible materials, smoke dispersion and surface carbonization, etc.
+      </p>
+
+      <div class="tabs-widget">
+        <div class="tabs is-centered">
+          <ul class="is-marginless">
+            <li class="is-active"><a>kitchen</a></li>
+            <li><a>stool</a></li>
+            <li><a>playground</a></li>
+            <li><a>chair</a></li>
+            <li><a>contacting stools</a></li>
+            <li><a>garden</a></li>
+          </ul>
+        </div>
+
+        <div class="tabs-content">
+          <div class="video-container-kitchen">
+            <video autoplay muted loop playsinline poster="./static/videos/loading.gif">
+              <source src="./static/videos/kitchen.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="video-container-stool" style="display: none;">
+            <video autoplay muted loop playsinline poster="./static/videos/stool.mp4">
+              <source src="./static/videos/stool.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="video-container-playground" style="display: none;">
+            <video autoplay muted loop playsinline poster="./static/videos/playground.mp4">
+              <source src="./static/videos/playground_new.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="video-container-chair" style="display: none;">
+            <video autoplay muted loop playsinline poster="./static/videos/chair.mp4">
+              <source src="./static/videos/chair.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="video-container-contacting" style="display: none;">
+            <video autoplay muted loop playsinline poster="./static/videos/double_chair.mp4">
+              <source src="./static/videos/double_chair.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="video-container-garden" style="display: none;">
+            <video autoplay muted loop playsinline poster="./static/videos/garden.mp4">
+              <source src="./static/videos/garden.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Core Features</h2>
+    <div class="columns is-vcentered" style="margin-bottom: 60px; margin-top: 60px;">
+      <div class="column is-8 has-text-centered">
+        <img src="./static/images/material.png" alt="Prior Guided Refinement" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 100%;">
+      </div>
+      <div class="column is-5">
+        <h3 class="title is-4">Scene-level Material Reasoning</h3>
+        <p class="content is-size-5">
+          Combustion-relevant material properties are estimated for each Gaussian in reconstructed 3DGS scene.
+        </p>
+        <p class="content has-text-grey">
+          Using the GPT-4o API, a typical scene costs only about <strong>$0.55</strong> in total, making our pipeline highly cost-efficient.
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="columns is-vcentered" style="margin-bottom: 60px; margin-top: 60px;">
+      <div class="column is-5">
+        <h3 class="title is-4">Efficient and Realistic Simulation</h3>
+        <p class="content is-size-5">
+          Our simulator produces flames comparable to Blender’s, runs <strong>4.1x</strong> faster, and naturally captures <strong>internal heat transfer</strong> and <strong>flame propagation</strong>.
+        </p>
+        <p class="content has-text-grey">
+          The simulations were run at the same spatial resolution and under identical ignition conditions, and the results were rendered with our renderer using consistent lighting and camera settings.
+        </p>
+      </div>
+      <div class="column is-8">
+        
+        <div class="video-compare-container" id="video-compare-container">
+          
+          <video class="video-layer" id="video-feature" autoplay muted loop playsinline src="./static/videos/blender/blender.mp4"></video>
+          
+          <video class="video-layer" id="video-pixel" autoplay muted loop playsinline src="./static/videos/blender/ours.mp4"></video>
+
+          <div class="slider-handle" id="slider-handle">
+            <div class="handle-icon"><i class="fas fa-arrows-alt-h"></i></div>
+          </div>
+
+          <div class="video-label label-left">Blender</div>
+          <div class="video-label label-right" style="text-align: right;">Ours</div>
+
+        </div>
+
+        <script>
+          (function() {
+            var container = document.getElementById('video-compare-container');
+            var handle = document.getElementById('slider-handle');
+            var topVideo = document.getElementById('video-feature');
+            var bottomVideo = document.getElementById('video-pixel');
+            var labels = container.querySelectorAll('.video-label');
+
+            // Ensure both videos play
+            var videos = [topVideo, bottomVideo];
+            videos.forEach(function(v) {
+              v.play().catch(function() {});
+              v.addEventListener('pause', function() { v.play().catch(function() {}); });
+            });
+
+            function updateSlider(x) {
+              var rect = container.getBoundingClientRect();
+              var pos = Math.max(0, Math.min(x - rect.left, rect.width));
+              var pct = (pos / rect.width) * 100;
+              handle.style.left = pct + '%';
+              topVideo.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+
+              labels.forEach(function(label) {
+                if (label.classList.contains('label-left')) {
+                  label.style.opacity = pct < 15 ? 0 : 1;
+                } else if (label.classList.contains('label-right')) {
+                  label.style.opacity = (100 - pct) < 15 ? 0 : 1;
+                }
+              });
+            }
+
+            var dragging = false;
+            handle.addEventListener('mousedown', function() { dragging = true; });
+            handle.addEventListener('touchstart', function() { dragging = true; });
+            document.addEventListener('mouseup', function() { dragging = false; });
+            document.addEventListener('touchend', function() { dragging = false; });
+            document.addEventListener('mousemove', function(e) {
+              if (dragging) updateSlider(e.clientX);
+            });
+            document.addEventListener('touchmove', function(e) {
+              if (dragging) updateSlider(e.touches[0].clientX);
+            });
+            container.addEventListener('click', function(e) { updateSlider(e.clientX); });
+          })();
+        </script>
+        
+        <p class="is-size-7 has-text-centered has-text-grey" style="margin-top: 5px;">
+          <i class="fas fa-hand-pointer"></i> Drag slider to compare
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="columns is-vcentered" style="margin-bottom: 60px; margin-top: 60px;">
+      <div class="column is-8">
+        <div class="video-compare-container" id="video-compare-container-2">
+          <video class="video-layer" id="video-top-2" autoplay muted loop playsinline src="./static/videos/constraint/origin.mp4"></video>
+          <video class="video-layer" id="video-bottom-2" autoplay muted loop playsinline src="./static/videos/constraint/constraint.mp4"></video>
+
+          <div class="slider-handle" id="slider-handle-2">
+            <div class="handle-icon"><i class="fas fa-arrows-alt-h"></i></div>
+          </div>
+
+          <div class="video-label label-left">W/O Constraint</div>
+          <div class="video-label label-right">W. Constraint</div>
+        </div>
+        <p class="is-size-7 has-text-centered has-text-grey" style="margin-top: 5px;">
+          <i class="fas fa-hand-pointer"></i> Drag slider to compare
+        </p>
+
+        <script>
+          (function() {
+            var container = document.getElementById('video-compare-container-2');
+            var handle = document.getElementById('slider-handle-2');
+            var topVideo = document.getElementById('video-top-2');
+            var bottomVideo = document.getElementById('video-bottom-2');
+            var labels = container.querySelectorAll('.video-label');
+
+            [topVideo, bottomVideo].forEach(function(v) {
+              v.play().catch(function() {});
+              v.addEventListener('pause', function() { v.play().catch(function() {}); });
+            });
+
+            function updateSlider(x) {
+              var rect = container.getBoundingClientRect();
+              var pos = Math.max(0, Math.min(x - rect.left, rect.width));
+              var pct = (pos / rect.width) * 100;
+              handle.style.left = pct + '%';
+              topVideo.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+
+              labels.forEach(function(label) {
+                if (label.classList.contains('label-left')) {
+                  label.style.opacity = pct < 15 ? 0 : 1;
+                } else if (label.classList.contains('label-right')) {
+                  label.style.opacity = (100 - pct) < 15 ? 0 : 1;
+                }
+              });
+            }
+
+            var dragging = false;
+            handle.addEventListener('mousedown', function() { dragging = true; });
+            handle.addEventListener('touchstart', function() { dragging = true; });
+            document.addEventListener('mouseup', function() { dragging = false; });
+            document.addEventListener('touchend', function() { dragging = false; });
+            document.addEventListener('mousemove', function(e) {
+              if (dragging) updateSlider(e.clientX);
+            });
+            document.addEventListener('touchmove', function(e) {
+              if (dragging) updateSlider(e.touches[0].clientX);
+            });
+            container.addEventListener('click', function(e) { updateSlider(e.clientX); });
+          })();
+        </script>
+      </div>
+      <div class="column is-5">
+        <h3 class="title is-4">Physically-Correct Fire Behavior</h3>
+        <p class="content is-size-5">
+          As demonstrated, combustion simulation is performed only in air regions, while solid regions are treated as physical boundaries.
+        </p>
+        <p class="content has-text-grey">
+          Placing a virtual brick above the campfire in the Firewood scene splits the fire into two streams.
+        </p>
+      </div>
+    </div>
+    
+    <hr>
+
+    <div style="margin-top: 60px;">
+    <h3 class="title is-4">Controllability</h3>
+    <div class="content has-text-justified">
+      <p>
+        Our combustion simulation framework provides users with a high degree of control over key aspects of the fire dynamics, including ignition location, fire intensity, and airflow.
+        These controls enable precise authoring of dynamic fire effects without manual 3D modeling or complex simulation setup.
+      </p>
+      
+      <div class="control-grid">
+        <!-- Header row -->
+        <div class="col-header">Ignition Location</div>
+        <div class="col-header">Fire Intensity</div>
+        <div class="col-header">Airflow</div>
+
+        <!-- Row 1 -->
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_ignition_1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_intensity_1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_airflow_1.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_ignition_2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_intensity_2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_airflow_2.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_ignition_3.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_intensity_3.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="grid-cell">
+          <video autoplay muted loop playsinline>
+            <source src="./static/videos/control/control_airflow_3.mp4" type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Comparisons with the SOTA Video Generative Model</h2>
+    <div class="content has-text-justified">
+      <p>
+        We compare with Runway Gen-3 Alpha Turbo, a leading model for video-to-video generation. 
+        Video generation methods significantly changes the original scene's appearance and structure.
+        Furthermore, its fire lacks physical plausibility, failing to capture core combustion dynamics. 
+        In contrast, FieryGS generates visually authentic and physically grounded fire effects, reproducing the evolution of ignition, flame and smoke spread, and scene illumination. 
+      </p>
+      <div class="video-container-baseline">
+        <!-- <img src="./static/videos/loading.gif" alt="loading" class="loading-gif2" id="videogen_loading"> -->
+        <video autoplay muted loop playsinline poster="./static/videos/loading.gif">
+          <source src="./static/videos/baseline.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">User Study</h2>
+    <div class="content has-text-justified">
+      <p>
+        We perform a user study on Amazon Mechanical Turk to compare our approach with baselines quantitatively.
+        A total of 86 participants were recruited, each asked to evaluate 31 randomly sampled image or video pairs. Each pair consists of one result from FieryGS and one from a baseline, shown in randomized order.
+      </p>
+
+      <div class="columns is-variable is-6 is-desktop">
+        <div class="column">
+          <h3 class="title is-5 has-text-centered">Image Preference</h3>
+          <canvas id="imageChart"></canvas>
+        </div>
+        <div class="column">
+          <h3 class="title is-5 has-text-centered">Video Preference</h3>
+          <canvas id="videoChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const createStackedChart = (ctxId, dataValues, barColor) => {
+    const ctx = document.getElementById(ctxId).getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['vs AutoVFX', 'vs Runway-V2V', 'vs Instruct-GS2GS'],
+        datasets: [
+          {
+            label: 'Preferred',
+            data: dataValues,
+            backgroundColor: barColor,
+            borderWidth: 0
+          },
+          {
+            label: 'Remaining',
+            data: dataValues.map(v => 100 - v),
+            backgroundColor: 'rgba(200, 200, 200, 0.4)',
+            borderWidth: 0
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: context => context.dataset.label === 'Preferred' ? `${context.parsed.x}%` : ''
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: value => value + '%'
+            }
+          },
+          y: {
+            stacked: true
+          }
+        }
+      }
+    });
+  };
+
+  // 初始化图表
+  createStackedChart('imageChart', [88.9, 79.4, 85.5], 'rgba(255, 159, 64, 0.8)');
+  createStackedChart('videoChart', [77.8, 66.5, 63.0], 'rgba(255, 99, 132, 0.8)');
+</script> -->
+
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <h2 class="title is-3 has-text-centered">Method Pipeline</h2>
+    <!-- <div class="video-container-framework">
+      <video autoplay muted loop playsinline poster="./static/videos/loading.gif">
+        <source src="./static/videos/framework.mp4" type="video/mp4">
+      </video>
+    </div> -->
+    <img alt="Method" src="./static/images/overview.png" style="width: 100%;">
+    <div class="content has-text-justified">
+      <b>Pipeline.</b> Given multi-view images as input, we first reconstruct the appearance and geometry of the scene. Next, we leverage the MLLM
+to infer combustion-related properties, such as material type and burnability. Based on these, we conduct
+combustion simulations, enabling fire and charring effects with user control. A unified volumetric
+rendering can seamlessly integrates 3DGS and fire, while also accounting for smoke scattering, fire illumination
+on the 3DGS, and the charring effect. Above components are integrated to produce realistic fire and smoke results.
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@InProceedings{shen2026fierygs,
+  title = {FieryGS: In-the-Wild Fire Synthesis with Physics-Integrated Gaussian Splatting},
+  author = {Qianfan Shen and Ningxiao Tao and Qiyu Dai and Tianle Chen and Minghan Qin and Yongjie Zhang and Mengyu Chu and Wenzheng Chen and Baoquan Chen},
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year = {2026},
+  url = {https://openreview.net/forum?id=ziKFH7whvy}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" target="_blank"
+         href="./static/paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/PKU-VCL-Geometry/Fierygs" target="_blank" external-link">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p style="text-align: center;">
+            This website is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and <a href="https://camp-nerf.github.io/">CamP</a>. Thanks for the author's great work.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>
