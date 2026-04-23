@@ -1,0 +1,28 @@
+/output
+/checkpoints
+/archive
+data
+**/__pycache__
+
+*.png
+
+*.blend
+*.blend1
+cache*
+*.pyc
+
+# Sensitive files
+.env
+*.env
+.env.*
+
+# Python build artifacts
+**/build/
+**/*.egg-info/
+**/*.so
+**/*.o
+**/.ninja_deps
+**/.ninja_log
+**/build.ninja
+__pycache__/
+*.pyc

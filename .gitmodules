@@ -1,0 +1,8 @@
+[submodule "third_party/kmeans_pytorch"]
+	path = third_party/kmeans_pytorch
+	url = https://github.com/subhadarship/kmeans_pytorch.git
+[submodule "third_party/segment-anything"]
+	path = third_party/segment-anything
+	url = https://github.com/facebookresearch/segment-anything.git[submodule "Grounded-SAM-2"]
+	path = Grounded-SAM-2
+	url = https://github.com/IDEA-Research/Grounded-SAM-2.git
